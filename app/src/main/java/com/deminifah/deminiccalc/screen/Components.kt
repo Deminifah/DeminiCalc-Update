@@ -6,20 +6,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deminifah.deminiccalc.R
 
@@ -44,9 +49,28 @@ fun ToolBars(leftIcon:Painter, rightIcon:Painter, headerText:String){
 
 @Composable
 fun CalcBtn(type:CalcbtnType, num:String = "1", funcSymbol: FuncSymbol = FuncSymbol.Clear){
-    Column {
+    Surface(shape = MaterialTheme.shapes.medium, modifier = Modifier.padding(8.dp)) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(10.dp).requiredSize(32.dp)) {
+            when(type){
+                CalcbtnType.Number -> {Text(text = num)}
+                CalcbtnType.Function -> {
+                    val painter = when(funcSymbol){
+                        FuncSymbol.Clear -> {R.drawable.clear}
+                        FuncSymbol.Equal -> {R.drawable.equal}
+                        FuncSymbol.Multiply -> {R.drawable.multiply}
+                        FuncSymbol.Minus ->{R.drawable.round_dehaze_24}
+                        FuncSymbol.Plus -> {R.drawable.plus}
+                        FuncSymbol.Divide -> {R.drawable.divide}
+                        FuncSymbol.Mod -> R.drawable.mod
+                        FuncSymbol.Bracket -> R.drawable.bracket
+                        FuncSymbol.Del -> {R.drawable.round_dehaze_24}
+                    }
+                    Icon(painter = painterResource(id = painter), contentDescription = "")
+                }
+            }
+        }
+    }
 }
-f
 enum class CalcbtnType{
     Number,
     Function
@@ -106,3 +130,69 @@ val CalcBtnData = listOf(BtnData(type = CalcbtnType.Function, funcSymbol = FuncS
     BtnData(type = CalcbtnType.Function, funcSymbol = FuncSymbol.Equal)
     )
 
+
+
+
+//Health Screen  Component
+
+@Composable
+fun HealthInfoCard(title:String = "Age", value:String = "43",modifier:Modifier = Modifier){
+    Surface(onClick = {}, shape = MaterialTheme.shapes.medium, tonalElevation = 32.dp, modifier = modifier) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Text(text = title, fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize )
+
+            Text(text = value,
+                fontWeight = MaterialTheme.typography.bodySmall.fontWeight,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize)
+        }
+    }
+
+}
+
+
+@Composable
+fun HealthResultCardA(title: String = "Body Mass Index",result:String = "Result", comments:String = "Comments"){
+    Surface(shape = MaterialTheme.shapes.medium){
+        Column (verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(4.dp, 16.dp)){
+            Text(text = title, fontWeight = FontWeight.Medium, fontSize = MaterialTheme.typography.labelLarge.fontSize)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(text = result, fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize)
+                Text(":",fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize)
+                Text(text = comments,fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize)
+
+            }
+
+        }
+    }
+}
+@Composable
+fun HealthResultCardB(){}
+
+
+//Unit Converter Component
+
+
+@Composable
+fun UnitConverterCard(){
+    Surface(shape = MaterialTheme.shapes.medium, tonalElevation = 32.dp, modifier = Modifier.fillMaxWidth()){
+        Column(modifier = Modifier.padding(16.dp,24.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Unit Converter", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.weight(1f))
+            }
+            Row (horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth(0.5f)){
+                IconButton(onClick = {}) {
+                    Icon(painter = painterResource(R.drawable.round_compare_arrows_24),
+                        modifier = Modifier.rotate(90f),
+                        contentDescription = "")
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "Unit Converter", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.weight(1f))
+            }
+        }
+
+    }
+}
