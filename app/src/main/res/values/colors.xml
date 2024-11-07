@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_bg">#555453</color>
+    <color name="func_btn">#ADADAD</color>
+    <color name="equal">#3A8360</color>
 </resources>

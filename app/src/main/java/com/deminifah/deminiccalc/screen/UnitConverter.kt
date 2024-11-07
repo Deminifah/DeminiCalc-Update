@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -26,20 +24,16 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.deminifah.deminiccalc.R
-import com.deminifah.deminiccalc.model.AppModel
 
-
-//calculator screen
+//Unit Converter Screen
 @Composable
-fun Screen1(){
-    val model = AppModel()
+fun Screen2(){
     Column(modifier = Modifier.fillMaxSize().background(color = colorResource(R.color.app_bg)))
     {
         ToolBars(leftIcon = painterResource(R.drawable.round_dehaze_24),
             rightIcon = painterResource(R.drawable.round_history_24),
             headerText = "Sci-Calc")
         Column(modifier = Modifier.weight(1f,fill = true)) {
-            CustomCalcText(Modifier.weight(1.2f, fill = true).fillMaxWidth(),model.displayExp)
             LazyRow(modifier = Modifier.fillMaxWidth().requiredHeight(50.dp), contentPadding = PaddingValues(16.dp)) {
                 item {
                     IconButton(onClick = {}) {
@@ -61,16 +55,12 @@ fun Screen1(){
                 modifier = Modifier.weight(2f, fill = true),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(16.dp)) {
+                contentPadding = PaddingValues(16.dp)
+            ) {
                 itemsIndexed(CalcBtnData){index,item->
-                    CalcBtn(type = item.type, model = model, index = index,num = item.num, funcSymbol = item.funcSymbol)
+                    CalcBtn2(type = item.type, index = index,num = item.num, funcSymbol = item.funcSymbol)
                 }
             }
         }
     }
 }
-
-
-
-
-

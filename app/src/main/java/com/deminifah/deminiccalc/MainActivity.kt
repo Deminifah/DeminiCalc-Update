@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.deminifah.deminiccalc.screen.HealthInfoCard
-import com.deminifah.deminiccalc.screen.HealthResultCardA
+import com.deminifah.deminiccalc.model.AppModel
 import com.deminifah.deminiccalc.screen.Screen1
 import com.deminifah.deminiccalc.screen.UnitConverterCard
 import com.deminifah.deminiccalc.ui.theme.DeminiCalcTheme
@@ -54,15 +52,15 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, name = "test")
 @Composable
 fun GreetingPreview() {
-    DeminiCalcTheme {
-        Box(modifier = Modifier.fillMaxSize().background(color = Color.DarkGray), contentAlignment = Alignment.Center){
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-//                HealthInfoCard(modifier = Modifier.weight(1f, fill = true))
-//                HealthInfoCard(modifier = Modifier.weight(1f, fill = true))
-//                HealthResultCardA()
-                UnitConverterCard()
-            }
 
-        }
+    DeminiCalcTheme {
+        Screen1()
+//        Box(modifier = Modifier.fillMaxSize().background(color = Color.DarkGray), contentAlignment = Alignment.Center){
+//            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+////                HealthInfoCard(modifier = Modifier.weight(1f, fill = true))
+////                HealthInfoCard(modifier = Modifier.weight(1f, fill = true))
+////                HealthResultCardA()
+//                UnitConverterCard()
+//
     }
 }
