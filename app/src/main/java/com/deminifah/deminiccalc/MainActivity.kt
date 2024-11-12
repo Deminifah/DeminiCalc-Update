@@ -9,6 +9,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -101,8 +102,13 @@ class MainActivity : ComponentActivity() {
 
                         }
                         if (model.destinationDialog.value){
+                            Box(modifier = Modifier.fillMaxSize().clickable {model.destinationDialog.value=false}){
+                            }
+                        }
+                        if (model.destinationDialog.value){
                             AppDestinationCard(Modifier.padding(innerPadding),model)
                         }
+
                     }
                 }
             }

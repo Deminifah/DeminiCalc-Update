@@ -178,7 +178,7 @@ object HistorySerializer:Serializer<History>{
 
 @Composable
 fun AppDestinationCard(modifier: Modifier,model: AppModel){
-    Surface(shadowElevation = 8.dp,tonalElevation = 32.dp,color = Color.White,modifier = modifier.fillMaxWidth(0.7f),shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomEnd = 16.dp, bottomStart = 16.dp)) {
+    Surface(shadowElevation = 8.dp,tonalElevation = 32.dp,color = Color.White,modifier = modifier.padding(top = 24.dp)   .fillMaxWidth(0.7f),shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomEnd = 16.dp, bottomStart = 16.dp)) {
         Column {
             Row (modifier = Modifier.clickable {model.navigate(ScreenState.SciCalc) } ,verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)){
                 IconButton(onClick = {model.navigate(ScreenState.SciCalc)}) {

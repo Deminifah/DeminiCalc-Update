@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
@@ -166,6 +167,8 @@ enum class FuncSymbol{
 @Composable
 fun CustomCalcText(modifier: Modifier, state:MutableState<String>,pad:Int=0){
     val textvalue = TextFieldValue(text = state.value, TextRange(state.value.length, state.value.length))
+    val clipboard = LocalClipboardManager.current
+    val toast = Toast.makeText(LocalContext.current,"Copied to Clip Tray",Toast.LENGTH_SHORT)
 
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(true) {
@@ -173,15 +176,20 @@ fun CustomCalcText(modifier: Modifier, state:MutableState<String>,pad:Int=0){
     }
     InterceptPlatformTextInput(interceptor = { _, _ -> awaitCancellation() })
     {
-        BasicTextField(value = textvalue,
-            textStyle = TextStyle(
-                color = Color.DarkGray,
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp
-            ),
-            cursorBrush = SolidColor(Color.DarkGray),
-            modifier = modifier.focusRequester(focusRequester).padding(pad.dp),
-            onValueChange = {})
+        Row(modifier = modifier,horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
+            BasicTextField(value = textvalue,
+                textStyle = TextStyle(
+                    color = Color.DarkGray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp
+                ),
+                cursorBrush = SolidColor(Color.DarkGray),
+                modifier = Modifier.weight(1f).fillMaxHeight().focusRequester(focusRequester).padding(pad.dp),
+                onValueChange = {})
+            IconButton(onClick = {clipboard.setText(AnnotatedString(state.value));toast.show()}) {
+                Icon(painterResource(R.drawable.baseline_content_copy_24),"", tint = Color.DarkGray)
+            }
+        }
 //        TextField(value = textvalue,
 //            colors = TextFieldDefaults.colors(cursorColor = Color.DarkGray, focusedContainerColor = Color.White, unfocusedContainerColor = Color.White),
 //            modifier = modifier.focusRequester(focusRequester),
