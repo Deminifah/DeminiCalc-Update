@@ -25,8 +25,6 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -161,12 +159,7 @@ enum class FuncSymbol{
     ArrowDown
 }
 
-@Composable
-fun  CalcScreen(modifier:Modifier){
-    Surface(modifier = modifier, color = Color.White) {
-//        CustomCalcText(Modifier.padding(16.dp))
-    }
-}
+
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

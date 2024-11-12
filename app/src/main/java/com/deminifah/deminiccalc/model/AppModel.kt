@@ -54,7 +54,7 @@ class AppModel:ViewModel() {
     val trig = mutableStateOf(Trig.Deg)
     val exp = mutableStateOf("")
     val displayExp  = mutableStateOf("")
-    val result = mutableStateOf("")
+    //val result = mutableStateOf("")
     var selectedIndex =  mutableIntStateOf(0)
     fun handleCLick(pos:Int){
         when(pos){

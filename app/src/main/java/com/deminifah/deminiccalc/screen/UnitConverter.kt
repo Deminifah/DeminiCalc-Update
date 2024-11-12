@@ -54,24 +54,10 @@ fun Screen2(modifier: Modifier,model: AppModel){
 }
 
 
-@Composable
-fun Test(){
-    val state = remember { mutableStateOf("") }
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        OutlinedTextField(value = state.value, onValueChange = {state.value=it}, trailingIcon = { Icon(
-            painterResource(R.drawable.baseline_content_copy_24),"") })
-    }
-}
 
 
 
-fun sam(pos:Int){
-    val toValue2 = mutableStateOf("")
-    val fromValue2= mutableStateOf("")
-    val toHasFocus2 = mutableStateOf(false)
-    val fromHasFocus2= mutableStateOf(true)
-    var value2 = "0"
 
-}
+
 
 

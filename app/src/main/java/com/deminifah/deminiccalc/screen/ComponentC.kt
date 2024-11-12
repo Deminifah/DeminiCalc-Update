@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Share
@@ -225,7 +224,7 @@ fun Screen4(modifier: Modifier,model: AppModel){
                 HealthInfoCard(modifier = Modifier.weight(1f), title = "Height (cm) ", value = model.height.value){
                     println("Dialog No show ooo")
                     model.healthDialogType.value =
-                        HealthDialogType.Height;
+                        HealthDialogType.Height
                     model.healthDialogState.value = true
                     println(model.healthDialogState.value)
                     println(".....")

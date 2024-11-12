@@ -2,31 +2,7 @@ package com.deminifah.deminiccalc.utils
 
 import com.deminifah.deminiccalc.obj.CurrencyPrice
 
-enum class BtnValue{
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE,
-    ZERO,
-    EXPONENT,
-    EQUAL,
-    PLUS,
-    MINUS,
-    MULTIPLY,
-    DIVIDE,
-    MOD,
-    OPENBRACKET,
-    CLOSEBRACKET,
-    DOT,
-    DELETE,
-    CLEAR
 
-}
 
 
 

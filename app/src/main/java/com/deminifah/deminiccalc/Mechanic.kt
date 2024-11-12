@@ -1,6 +1,6 @@
 package com.deminifah.deminiccalc
-import com.deminifah.deminiccalc.utils.Units
-import org.mariuszgromada.math.mxparser.*
+import org.mariuszgromada.math.mxparser.Expression
+import org.mariuszgromada.math.mxparser.License
 
 fun tester(){
     License.iConfirmNonCommercialUse("deminifah")
@@ -18,8 +18,3 @@ fun tester(){
 }
 
 
-fun regulate(){
-    val exp = ""
-    val operator = "+-%^/"
-
-}
