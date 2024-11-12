@@ -43,10 +43,10 @@ sealed class Length(override val factor: Double, override val name:String):Units
     data object Kilometer : Length(0.001,"Kilometer")
     data object Centimeter : Length(100.0,"Centimeter")
     data object Millimeter : Length(1000.0,"Millimeter")
-    data object Inch : Length(39.37,"Inch") // TODO: Implement conversion factor
-    data object Foot : Length(3.28084,"Foot") // TODO: Implement conversion factor
-    data object Yard : Length(1.094,"Yard") // TODO: Implement conversion factor
-    data object Mile : Length(0.0006214,"Mile") // TODO: Implement conversion factor
+    data object Inch : Length(39.37,"Inch")
+    data object Foot : Length(3.28084,"Foot")
+    data object Yard : Length(1.094,"Yard")
+    data object Mile : Length(0.0006214,"Mile")
     data object Nautical: Length (0.00054,"Nautical")
     data object Nanometer:Length(1000000000.0,"Nanometer")
     data object Micrometer:Length(1000000.0,"Micrometer")
@@ -62,9 +62,9 @@ sealed class Mass(override val factor: Double, override val name:String):Units{
     data object Kilogram : Mass(1.0,"Kilogram")
     data object Gram : Mass(1000.0,"Gram")
     data object Milligram : Mass(1000000.0,"Milligram")
-    data object Pound : Mass(2.20462,"Pound") // TODO: Implement conversion factor
-    data object Ounce : Mass(35.274,"Ounce") // TODO: Implement conversion factor
-    data object Ton : Mass(0.001,"Ton") // TODO: Implement conversion factor
+    data object Pound : Mass(2.20462,"Pound")
+    data object Ounce : Mass(35.274,"Ounce")
+    data object Ton : Mass(0.001,"Ton")
 }
 sealed class Volume(override val factor: Double, override val name:String):Units{
     // Volume Units
@@ -72,12 +72,12 @@ sealed class Volume(override val factor: Double, override val name:String):Units
     data object CubicCentimeter : Volume(1000000.0,"CubicCentimeter")
     data object Liter : Volume(1000.0,"Liter")
     data object Milliliter : Volume(1000000.0,"Milliliter")
-    data object CubicFoot : Volume(35.3147,"CubicFoot") // TODO: Implement conversion factor
-    data object CubicInch : Volume(61023.7,"CUbicInch") // TODO: Implement conversion factor
-    data object Gallon : Volume(264.172,"Gallon") // TODO: Implement conversion factor
-    data object Quart : Volume(1056.69,"Quart") // TODO: Implement conversion factor
-    data object Pint : Volume(2113.38,"Pint") // TODO: Implement conversion factor
-    data object OunceV : Volume(33814.0,"Ounce") // TODO: Implement conversion factor
+    data object CubicFoot : Volume(35.3147,"CubicFoot")
+    data object CubicInch : Volume(61023.7,"CUbicInch")
+    data object Gallon : Volume(264.172,"Gallon")
+    data object Quart : Volume(1056.69,"Quart")
+    data object Pint : Volume(2113.38,"Pint")
+    data object OunceV : Volume(33814.0,"Ounce")
 
 }
 
@@ -87,11 +87,11 @@ sealed class Area(override val factor: Double, override val name:String):Units {
     // Area Units
     data object SquareMeter : Area(1.0,"SquareMeter")
     data object SquareKilometer : Area(0.000001,"SquareKilometer")
-    data object SquareFoot : Area(10.7639,"SquareFoot") // TODO: Implement conversion factor
-    data object SquareYard : Area(1.19599,"SquareYard") // TODO: Implement conversion factor
-    data object Acre : Area(0.000247105,"Acre") // TODO: Implement conversion factor
+    data object SquareFoot : Area(10.7639,"SquareFoot")
+    data object SquareYard : Area(1.19599,"SquareYard")
+    data object Acre : Area(0.000247105,"Acre")
     data object Hectare : Area(0.0001,"Hectare")
-    data object SquareMile : Area(0.000000386102,"SquareMile") // TODO: Implement conversion factor
+    data object SquareMile : Area(0.000000386102,"SquareMile")
 
 }
 
