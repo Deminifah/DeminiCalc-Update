@@ -1,5 +1,7 @@
 package com.deminifah.deminiccalc.utils
 
+import com.deminifah.deminiccalc.obj.CurrencyPrice
+
 enum class BtnValue{
     ONE,
     TWO,
@@ -30,50 +32,67 @@ enum class BtnValue{
 
 
 
+sealed interface Units{
+    val factor: Double
+    val name:String
+}
 
-sealed class Units(val factor: Double) {
-    // Volume Units
-    data object CubicMeter : Units(1.0)
-    data object CubicCentimeter : Units(1000000.0)
-    data object Liter : Units(1000.0)
-    data object Milliliter : Units(1000000.0)
-    data object CubicFoot : Units(35.3147) // TODO: Implement conversion factor
-    data object CubicInch : Units(61023.7) // TODO: Implement conversion factor
-    data object Gallon : Units(264.172) // TODO: Implement conversion factor
-    data object Quart : Units(1056.69) // TODO: Implement conversion factor
-    data object Pint : Units(2113.38) // TODO: Implement conversion factor
-    data object OunceV : Units(33814.0) // TODO: Implement conversion factor
 
+sealed class Length(override val factor: Double, override val name:String):Units{
+    data object Meter : Length(1.0,"Meter")
+    data object Kilometer : Length(0.001,"Kilometer")
+    data object Centimeter : Length(100.0,"Centimeter")
+    data object Millimeter : Length(1000.0,"Millimeter")
+    data object Inch : Length(39.37,"Inch") // TODO: Implement conversion factor
+    data object Foot : Length(3.28084,"Foot") // TODO: Implement conversion factor
+    data object Yard : Length(1.094,"Yard") // TODO: Implement conversion factor
+    data object Mile : Length(0.0006214,"Mile") // TODO: Implement conversion factor
+    data object Nautical: Length (0.00054,"Nautical")
+    data object Nanometer:Length(1000000000.0,"Nanometer")
+    data object Micrometer:Length(1000000.0,"Micrometer")
+}
+sealed class Temperature(override val factor: Double, override val name:String):Units{
+    // Temperature Units
+    data object Celcius : Temperature(1.0,"Celcius")
+    data object Fahrenheit : Temperature(1.0,"Fahrenheit")
+    data object Kelvin : Temperature(1.0,"Kelvin")
+}
+sealed class Mass(override val factor: Double, override val name:String):Units{
     // Mass Units
-    data object Kilogram : Units(1.0)
-    data object Gram : Units(1000.0)
-    data object Milligram : Units(1000000.0)
-    data object Pound : Units(2.20462) // TODO: Implement conversion factor
-    data object Ounce : Units(35.274) // TODO: Implement conversion factor
-    data object Ton : Units(0.001) // TODO: Implement conversion factor
+    data object Kilogram : Mass(1.0,"Kilogram")
+    data object Gram : Mass(1000.0,"Gram")
+    data object Milligram : Mass(1000000.0,"Milligram")
+    data object Pound : Mass(2.20462,"Pound") // TODO: Implement conversion factor
+    data object Ounce : Mass(35.274,"Ounce") // TODO: Implement conversion factor
+    data object Ton : Mass(0.001,"Ton") // TODO: Implement conversion factor
+}
+sealed class Volume(override val factor: Double, override val name:String):Units{
+    // Volume Units
+    data object CubicMeter : Volume(1.0,"CubicMeter")
+    data object CubicCentimeter : Volume(1000000.0,"CubicCentimeter")
+    data object Liter : Volume(1000.0,"Liter")
+    data object Milliliter : Volume(1000000.0,"Milliliter")
+    data object CubicFoot : Volume(35.3147,"CubicFoot") // TODO: Implement conversion factor
+    data object CubicInch : Volume(61023.7,"CUbicInch") // TODO: Implement conversion factor
+    data object Gallon : Volume(264.172,"Gallon") // TODO: Implement conversion factor
+    data object Quart : Volume(1056.69,"Quart") // TODO: Implement conversion factor
+    data object Pint : Volume(2113.38,"Pint") // TODO: Implement conversion factor
+    data object OunceV : Volume(33814.0,"Ounce") // TODO: Implement conversion factor
 
+}
+
+
+
+sealed class Area(override val factor: Double, override val name:String):Units {
     // Area Units
-    data object SquareMeter : Units(1.0)
-    data object SquareKilometer : Units(0.000001)
-    data object SquareFoot : Units(10.7639) // TODO: Implement conversion factor
-    data object SquareYard : Units(1.19599) // TODO: Implement conversion factor
-    data object Acre : Units(0.000247105) // TODO: Implement conversion factor
-    data object Hectare : Units(0.0001)
-    data object SquareMile : Units(0.000000386102) // TODO: Implement conversion factor
+    data object SquareMeter : Area(1.0,"SquareMeter")
+    data object SquareKilometer : Area(0.000001,"SquareKilometer")
+    data object SquareFoot : Area(10.7639,"SquareFoot") // TODO: Implement conversion factor
+    data object SquareYard : Area(1.19599,"SquareYard") // TODO: Implement conversion factor
+    data object Acre : Area(0.000247105,"Acre") // TODO: Implement conversion factor
+    data object Hectare : Area(0.0001,"Hectare")
+    data object SquareMile : Area(0.000000386102,"SquareMile") // TODO: Implement conversion factor
 
-
-    // Length Units
-    data object Meter : Units(1.0)
-    data object Kilometer : Units(0.001)
-    data object Centimeter : Units(100.0)
-    data object Millimeter : Units(1000.0)
-    data object Inch : Units(39.37) // TODO: Implement conversion factor
-    data object Foot : Units(3.28084) // TODO: Implement conversion factor
-    data object Yard : Units(1.094) // TODO: Implement conversion factor
-    data object Mile : Units(0.0006214) // TODO: Implement conversion factor
-    data object Nautical: Units (0.00054)
-    data object Nanometer:Units(1000000000.0)
-    data object Micrometer:Units(1000000.0)
 }
 
 
@@ -109,7 +128,33 @@ fun kelvinToFahrenheit(kelvin: Double): Double {
 }
 
 fun unitConversion(from: Units, to: Units, value: Double):Double{
+    if (from is Temperature && to is Temperature){
+        when{
+            from == Temperature.Celcius && to == Temperature.Fahrenheit ->{
+                return celsiusToFahrenheit(value)
+            }
+            from == Temperature.Celcius && to == Temperature.Kelvin ->{
+                return celsiusToKelvin(value)
+            }
+            from == Temperature.Fahrenheit && to == Temperature.Celcius->{
+                return fahrenheitToCelsius(value)
+            }
+            from == Temperature.Fahrenheit && to == Temperature.Kelvin->{
+                return fahrenheitToKelvin(value)
+            }
+            from == Temperature.Kelvin && to == Temperature.Celcius->{
+                return kelvinToCelsius(value)
+            }
+            from == Temperature.Kelvin && to == Temperature.Fahrenheit->{
+                return kelvinToFahrenheit(value)
+            }
+        }
+    }
     val conversionResult = (to.factor / from.factor) * value
+    return conversionResult
+}
+fun unitConversion(from: CurrencyPrice, to: CurrencyPrice, value: Double):Double{
+    val conversionResult = (to.price.toDouble() / from.price.toDouble()) * value
     return conversionResult
 }
 
@@ -117,7 +162,10 @@ fun unitConversion(from: Units, to: Units, value: Double):Double{
 
 
 
-enum class Area{
+
+
+
+enum class Areas{
     SquareMeter,
     SquareKilometer,
     SquareFoot,
@@ -126,12 +174,12 @@ enum class Area{
     Hectare,
     SquareMile
 }
-enum class Temperature{
+enum class Temperatures{
     Celcius,
     Fahrenheit,
     Kelvin
 }
-enum class Length{
+enum class Lengths{
     Meter,
     Kilometer,
     Centimeter,
@@ -145,7 +193,7 @@ enum class Length{
     Micrometer
 
 }
-enum class  Volume{
+enum class  Volumes{
     CubicMeter,
     CubicCentimeter,
     Liter,
@@ -157,7 +205,7 @@ enum class  Volume{
     Pint,
     Ounce
 }
-enum class Mass {
+enum class Masses {
     Kilogram,
     Gram,
     Milligram,
@@ -166,4 +214,10 @@ enum class Mass {
     Ton
 }
 
-
+enum class UnitType{
+    Area,
+    Length,
+    Temperature,
+    Volume,
+    Mass
+}

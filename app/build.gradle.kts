@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serial)
+//    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -12,7 +14,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,4 +71,7 @@ dependencies {
     implementation(libs.mathparser.org.mxparser)
     implementation(libs.coil.compose)
     implementation (libs.retrofit)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.datastore)
 }

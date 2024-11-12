@@ -10,4 +10,6 @@
     <color name="app_bg">#555453</color>
     <color name="func_btn">#ADADAD</color>
     <color name="equal">#3A8360</color>
+    <color name="measure">#1D6F89</color>
+    <color name="action">#D9D9D9</color>
 </resources>
