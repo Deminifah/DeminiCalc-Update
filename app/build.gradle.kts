@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.mathparser.org.mxparser)
     implementation(libs.coil.compose)
     implementation (libs.retrofit)
+    implementation(libs.converter.gson)
+
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.datastore)

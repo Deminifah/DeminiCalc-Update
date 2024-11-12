@@ -80,7 +80,7 @@ fun ToolBars(leftIcon:Painter, rightIcon:Painter, headerText:String,model: AppMo
            }
             Text(text = headerText, color = Color.White, fontWeight = FontWeight.Bold)
         }
-        IconButton(onClick = { /*TODO*/ }){
+        IconButton(onClick = { model.showHistoryDialog.value=true }){
             Icon(painter = rightIcon, contentDescription = "", tint = Color.White)
         }
     }

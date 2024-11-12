@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deminifah.deminiccalc.ScreenState
 import com.deminifah.deminiccalc.obj.CurrencyPrice
+import com.deminifah.deminiccalc.obj.CurrencyRequest
+import com.deminifah.deminiccalc.obj.DefaultValue
 import com.deminifah.deminiccalc.obj.currencyList
 import com.deminifah.deminiccalc.obj.currencyPriceList
 import com.deminifah.deminiccalc.screen.DialogData
@@ -35,6 +37,8 @@ import kotlinx.coroutines.launch
 import org.mariuszgromada.math.mxparser.Expression
 import org.mariuszgromada.math.mxparser.License
 import org.mariuszgromada.math.mxparser.mXparser
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Locale
 
 class AppModel:ViewModel() {
@@ -42,11 +46,13 @@ class AppModel:ViewModel() {
     val calculationErrMsg = mutableStateOf("")
     val appScreenState = mutableStateOf(ScreenState.SciCalc)
     val destinationDialog = mutableStateOf(false)
+    val showHistoryDialog = mutableStateOf(false)
 
 
     private val formats = DecimalFormat("#.####")
     init {
         License.iConfirmNonCommercialUse("deminifah")
+        updateCurrencyPrice()
     }
     private val nav = ArrayDeque<ScreenState>()
     val backEnabled = mutableStateOf(false)
@@ -105,6 +111,8 @@ class AppModel:ViewModel() {
 
         }
     }
+    val updateHistory = mutableStateOf(false)
+    val historyLabel = mutableStateOf("")
     private fun calculate(){
 
         when(trig.value){
@@ -122,13 +130,16 @@ class AppModel:ViewModel() {
             calculationErrMsg.value="Math Error"
             calculationError.value = true
             return
-        }else if (result.toString()=="NaN"){
+        }else if (result.toString()=="NaN")
+        {
             calculationErrMsg.value="Syntax Error"
             calculationError.value = true
             return
         }
+        historyLabel.value = displayExp.value
         displayExp.value = result.toString().replace("E","×10^")
         exp.value = displayExp.value
+        updateHistory.value=true
     }
     fun specialFunc(func:String){
         if(func == "π" || func == "e"){
@@ -486,7 +497,13 @@ class AppModel:ViewModel() {
         get() = unitFrom2.value.code.uppercase(Locale.UK)
 
     fun updateCurrencyPrice(){
-        viewModelScope.launch {  }
+        viewModelScope.launch {
+            val retrofit = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).build()
+            val routeReq = retrofit.create(CurrencyRequest::class.java)
+            val result = routeReq.getCurrency().body()?: DefaultValue()
+            currencyPriceState.clear()
+            currencyPriceState.addAll(result.currencyValues)
+        }
     }
     fun switchUnit2(){
         val temp = unitTo2.value
