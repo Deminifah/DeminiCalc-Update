@@ -49,7 +49,7 @@ import com.deminifah.deminiccalc.model.AppModel
 @Composable
 fun HealthDialog(model: AppModel, title:String){
     Dialog(onDismissRequest = {model.healthDialogState.value=false}) {
-        Surface(modifier = Modifier.fillMaxHeight(0.85f), color = colorResource(R.color.app_bg), shape = MaterialTheme.shapes.medium) {
+        Surface(modifier = Modifier.fillMaxHeight(0.7f), color = colorResource(R.color.app_bg), shape = MaterialTheme.shapes.medium) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                     Text(title, color = Color.White, fontSize = MaterialTheme.typography.bodyLarge.fontSize, fontWeight = FontWeight.SemiBold)
@@ -245,14 +245,26 @@ fun Screen4(modifier: Modifier,model: AppModel){
         item {
             val ctx = LocalContext.current
             FloatingActionButton(onClick = {
+                val shareText = """
+                    DeminiCalc Result Output:
+                    Age: ${model.age.value}
+                    Weight: ${model.weight.value}
+                    Height: ${model.height.value}
+                    Gender: ${model.gender.value}
+                
+                    BMI: ${model.bmiResult.value}
+                    BMR: ${model.bmrResult.value}
+                
+                    Calculated on DeminiCalc...
+                """.trimIndent()
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT,"THIS IS JUST A TESTING")
+                putExtra(Intent.EXTRA_TEXT,shareText)
                 type = "text/plain"
             }
-            val shareIntent = Intent.createChooser(sendIntent,"Bmi Result")
+            val shareIntent = Intent.createChooser(sendIntent,"Health Result")
             ctx.startActivity(shareIntent)
-        }, modifier=Modifier.padding(8.dp),containerColor = colorResource(R.color.action)) {
+        }, modifier=Modifier.padding(8.dp), contentColor = Color.Black,containerColor = colorResource(R.color.action)) {
             Icon(Icons.Rounded.Share,"")
         }}
     }

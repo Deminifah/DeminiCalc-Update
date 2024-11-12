@@ -33,6 +33,7 @@ import com.deminifah.deminiccalc.utils.Units
 import com.deminifah.deminiccalc.utils.Volume
 import com.deminifah.deminiccalc.utils.Volumes
 import com.deminifah.deminiccalc.utils.unitConversion
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mariuszgromada.math.mxparser.Expression
 import org.mariuszgromada.math.mxparser.License
@@ -497,12 +498,34 @@ class AppModel:ViewModel() {
         get() = unitFrom2.value.code.uppercase(Locale.UK)
 
     fun updateCurrencyPrice(){
-        viewModelScope.launch {
-            val retrofit = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).build()
-            val routeReq = retrofit.create(CurrencyRequest::class.java)
-            val result = routeReq.getCurrency().body()?: DefaultValue()
-            currencyPriceState.clear()
-            currencyPriceState.addAll(result.currencyValues)
+        viewModelScope.launch(Dispatchers.IO) {
+            val retrofit = Retrofit.Builder().baseUrl("https://cdn.jsdelivr.net/npm/@fawazahmed0/")
+                .addConverterFactory(GsonConverterFactory.create()).build()
+            try {
+                val routeReq = retrofit.create(CurrencyRequest::class.java).getCurrency().execute()
+                println(routeReq.message())
+                println("......................--------------->")
+                println(routeReq.code())
+                println("......................--------------->")
+                println("It Was A Sucess.....")
+                val result = routeReq.body()?: DefaultValue()
+                currencyPriceState.clear()
+                println(currencyPriceState.toList())
+                currencyPriceState.addAll(result.eur.map { key->
+                    CurrencyPrice(key.key,key.value.toString())
+                })
+                unitTo2.value = currencyPriceState[294]
+                unitFrom2.value = currencyPriceState[215]
+                println(currencyPriceState.toList())
+            }catch (e:Exception){
+                currencyPriceState.addAll(currencyPriceList)
+                println("......................--------------->")
+                println(e.message)
+                println("......................--------------->")
+                println("It Was A Failure.....")
+                e.printStackTrace()
+
+            }
         }
     }
     fun switchUnit2(){
@@ -744,6 +767,7 @@ class AppModel:ViewModel() {
     }
 
     fun findCurrency(code:String,index: Int):CurrencyPrice{
+        if (currencyPriceState.isEmpty())return unitTo2.value
         return currencyPriceState.find { it.code == code } ?:  currencyPriceState[index]
     }
 
@@ -762,10 +786,23 @@ class AppModel:ViewModel() {
     val bmrResult = mutableStateOf("Input data")
     val bmiComment = mutableStateOf("")
     val bmrComment = mutableStateOf("")
+    fun generateComment(bmi: Double): String {
+        return when (bmi) {
+            in 0.0..18.5 -> ": Needs More Nourishment (UW)"
+            in 18.51..24.9 -> ": Normal Weight Kudos..."
+            in 25.0..29.9 -> ": Room for Improvement (OW)"
+            in 30.0..34.9 -> ": Enhance Care Needed (OB I)"
+            in 35.0..39.9 -> ": Prioritize Wellness (OB II)"
+            in 40.0..Double.MAX_VALUE -> "Health Focus Required (OB III)"
+            else -> "Invalid BMI"
+        }
+    }
     private fun healthCalc(){
         try {
             bmiResult.value = formats.format(calculateBMI(weight.value.toDouble(),height.value.toDouble()))
             bmrResult.value = formats.format(calculateBMR(weight.value.toDouble(),height.value.toDouble(),age.value.toInt(),gender.value=="Female"))
+            bmiComment.value = generateComment(bmiResult.value.toDouble())
+            bmrComment.value = "kcal"
         }catch (e:Exception){
             println(e.message)
             println(e.printStackTrace())

@@ -49,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -110,7 +111,7 @@ fun CalcBtn(type:CalcbtnType,model:AppModel,index:Int, num:String = "1", funcSym
             .padding(10.dp)
             .requiredSize(32.dp)) {
             when(type){
-                CalcbtnType.Number -> {Text(text = num)}
+                CalcbtnType.Number -> {Text(text = num, color = Color.Black, fontWeight = FontWeight.Bold)}
                 CalcbtnType.Function -> {
                     if(index == 0){
                         Text(text = "(", color = Color.White, fontWeight = FontWeight.ExtraBold)
@@ -237,6 +238,7 @@ fun HealthInfoCard(modifier:Modifier = Modifier,title:String = "Age", value:Stri
     Surface(onClick = onClick, color = Color.White, shape = MaterialTheme.shapes.medium, tonalElevation = 32.dp, modifier = modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(14.dp)) {
             Text(text = title, fontWeight = FontWeight.ExtraBold,
+                color = Color.Black,
                 fontSize = MaterialTheme.typography.bodyLarge.fontSize )
 
             Text(text = value,
@@ -252,10 +254,10 @@ fun HealthInfoCard(modifier:Modifier = Modifier,title:String = "Age", value:Stri
 fun HealthResultCardA(title: String = "Body Mass Index",result:String = "Result", comments:String = "Comments"){
     Surface(shape = MaterialTheme.shapes.medium, color = Color.White){
         Column (verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(8.dp, 10.dp)){
-            Text(text = title, fontWeight = FontWeight.ExtraBold, fontSize = MaterialTheme.typography.bodyLarge.fontSize)
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = result, fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize)
-                Text(text = comments,fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize)
+            Text(text = title, fontWeight = FontWeight.ExtraBold, fontSize = MaterialTheme.typography.bodyLarge.fontSize, color = Color.Black)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(text = result, fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize,fontStyle = FontStyle.Italic, color = colorResource(R.color.measure))
+                Text(text = comments,fontWeight = FontWeight.Normal, fontSize = MaterialTheme.typography.bodySmall.fontSize, fontStyle = FontStyle.Italic, color = colorResource(R.color.measure))
 
             }
 
@@ -408,8 +410,8 @@ fun DialogItem(item:String, label:String, model: AppModel){
     Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.clickable { model.showUnitDialog.value = false;model.handleUniClick(
         pickUnit(item,model.measurement[model.currentMeasurement.intValue])
     ) }) {
-        Text(text = item, fontWeight = FontWeight.Bold, fontSize = MaterialTheme.typography.bodyLarge.fontSize)
-        Text(text = label, fontWeight = MaterialTheme.typography.labelMedium.fontWeight, fontSize = MaterialTheme.typography.labelMedium.fontSize)
+        Text(text = item, fontWeight = FontWeight.Bold, fontSize = MaterialTheme.typography.bodyLarge.fontSize, color = Color.Black)
+        Text(text = label, color = Color.Black ,fontWeight = MaterialTheme.typography.labelMedium.fontWeight, fontSize = MaterialTheme.typography.labelMedium.fontSize)
     }
 }
 

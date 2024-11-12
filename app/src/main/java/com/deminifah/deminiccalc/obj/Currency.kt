@@ -1,16 +1,16 @@
 package com.deminifah.deminiccalc.obj
 
 
-import retrofit2.Response
+import retrofit2.Call
 import retrofit2.http.GET
 
 interface CurrencyRequest{
-    @GET("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json")
-    fun getCurrency():Response<DefaultValue>
+    @GET("currency-api@latest/v1/currencies/eur.json")
+    fun getCurrency():Call<DefaultValue>
 }
 interface CurrencyRequest2{
     @GET("https://latest.currency-api.pages.dev/v1/currencies/eur.json")
-    suspend fun getCurrency():Response<DefaultValue>
+    fun getCurrency():Call<DefaultValue>
 }
 
 
@@ -711,7 +711,7 @@ val currencyPriceList = listOf(
     CurrencyPrice("zwg", "31.15535005"),
     CurrencyPrice("zwl", "77848.62713837")
 )
-data class DefaultValue(var currencyValues:List<CurrencyPrice> = currencyPriceList)
+data class DefaultValue(var date:String="",var eur:Map<String,Double> = emptyMap())
 
 
 

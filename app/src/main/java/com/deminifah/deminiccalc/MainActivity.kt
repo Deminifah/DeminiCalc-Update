@@ -11,7 +11,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -73,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.fillMaxSize()) {
                         if(model.showHistoryDialog.value){
                             Dialog(onDismissRequest = {model.showHistoryDialog.value=false}) {
-                                LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+                                LazyColumn(modifier = Modifier.fillMaxWidth() .fillMaxHeight(0.8f).background(color = Color.White), contentPadding = PaddingValues(16.dp)) {
                                     item {
                                         Text("History", fontStyle = FontStyle.Italic, fontWeight = FontWeight.ExtraBold)
                                     }
