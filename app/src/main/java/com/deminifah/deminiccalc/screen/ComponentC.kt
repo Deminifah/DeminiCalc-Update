@@ -58,7 +58,7 @@ fun HealthDialog(model: AppModel, title:String){
                     }
                 }
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    CustomCalcText(modifier = Modifier.weight(1f) .clip(MaterialTheme.shapes.medium) .background(color = Color.White),model.healthDialogText, pad = 8)
+                    CustomCalcText(modifier = Modifier.weight(1f).height(64.dp) .clip(MaterialTheme.shapes.medium) .background(color = Color.White),model.healthDialogText, pad = 8)
                     DialogBtn3(
                         modifier = Modifier.weight(0.4f),
                         type = CalcbtnType.Function,
