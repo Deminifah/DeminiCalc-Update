@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.util.fastJoinToString
 import androidx.core.text.isDigitsOnly
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
@@ -48,6 +49,7 @@ class AppModel:ViewModel() {
     val appScreenState = mutableStateOf(ScreenState.SciCalc)
     val destinationDialog = mutableStateOf(false)
     val showHistoryDialog = mutableStateOf(false)
+    val screenCalcCursorPosition = mutableIntStateOf(0)
 
 
     private val formats = DecimalFormat("#.####")
@@ -62,55 +64,90 @@ class AppModel:ViewModel() {
     val exp = mutableStateOf("")
     val displayExp  = mutableStateOf("")
     //val result = mutableStateOf("")
-    var selectedIndex =  mutableIntStateOf(0)
+    var selectedIndex =  mutableIntStateOf(1)
     fun handleCLick(pos:Int){
         when(pos){
             0->{
-                displayExp.value += "("
-                exp.value += "("
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'(') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'(') }.fastJoinToString("")
             }
             1->{
-                displayExp.value += ")"
-                exp.value += ')'
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,')') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,')') }.fastJoinToString("")
             }
-            2->{displayExp.value += '%'
-                exp.value += '%'
+            2->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'%') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'%') }.fastJoinToString("")
             }
-            3->{displayExp.value += '÷'
-                exp.value += '/'}
-            4->{displayExp.value += '7'
-                exp.value += '7'}
-            5->{displayExp.value += '8'
-                exp.value += '8'}
-            6->{displayExp.value += '9'
-                exp.value += '9'}
-            7->{displayExp.value += '×'
-                exp.value += '*'}
-            8->{displayExp.value += '4'
-                exp.value += '4'}
-            9->{displayExp.value += '5'
-                exp.value += '5'}
-            10->{displayExp.value += '6'
-                exp.value += '6'}
-            11->{displayExp.value += '-'
-                exp.value += '-'}
-            12->{displayExp.value += '1'
-                exp.value += '1'}
-            13->{displayExp.value += '2'
-                exp.value += '2'}
-            14->{displayExp.value += '3'
-                exp.value += '3'}
-            15->{displayExp.value += '+'
-                exp.value += '+'}
-            16->{displayExp.value += '0'
-                exp.value += '0'}
-            17->{displayExp.value += '.'
-                exp.value += '.'}
-            18->{displayExp.value =displayExp.value.dropLast(1)
-                exp.value = exp.value.dropLast(1)}
-            19->{calculate()}
+            3->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'÷') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'/') }.fastJoinToString("")
+            }
+            4->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'7') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'7') }.fastJoinToString("")
+            }
+            5->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'8') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'8') }.fastJoinToString("")
+            }
+            6->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'9') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'9') }.fastJoinToString("")
+            }
+            7->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'×') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'*') }.fastJoinToString("")
+            }
+            8->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'4') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'4') }.fastJoinToString("")
+            }
+            9->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'5') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'5') }.fastJoinToString("")
+            }
+            10->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'6') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'6') }.fastJoinToString("")
+            }
+            11->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'-') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'-') }.fastJoinToString("")
+            }
+            12->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'1') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'1') }.fastJoinToString("")
+            }
+            13->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'2') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'2') }.fastJoinToString("")
+            }
+            14->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'3') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'3') }.fastJoinToString("")
+            }
+            15->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'+') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'+') }.fastJoinToString("")
+            }
+            16->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'0') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'0') }.fastJoinToString("")
+            }
+            17->{
+                displayExp.value = displayExp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'.') }.fastJoinToString("")
+                exp.value  = exp.value.toMutableList().apply { add(screenCalcCursorPosition.intValue,'.') }.fastJoinToString("")
+            }
+            18->{displayExp.value = displayExp.value.filterIndexed { index,value-> index != screenCalcCursorPosition.intValue - 1 }
+                exp.value = exp.value.filterIndexed { index,value-> index != screenCalcCursorPosition.intValue - 1 }}
+            19->{ calculate()}
 
         }
+    }
+    fun clearScreen(){
+        displayExp.value=""
+        exp.value=""
     }
     val updateHistory = mutableStateOf(false)
     val historyLabel = mutableStateOf("")
@@ -143,9 +180,10 @@ class AppModel:ViewModel() {
         updateHistory.value=true
     }
     fun specialFunc(func:String){
-        if(func == "π" || func == "e"){
+        if(func == "π" || func == "e" || func =="²"){
             displayExp.value += func
             exp.value += func
+            exp.value = unicodeReplace(exp.value)
             return
         }
         displayExp.value += "$func("
@@ -170,6 +208,10 @@ class AppModel:ViewModel() {
         }else{
             backEnabled.value = false
         }
+    }
+    private fun unicodeReplace(symbol:String): String{
+        var solution = symbol.replace("²", "^2")
+        return solution
     }
 
 

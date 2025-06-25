@@ -63,10 +63,10 @@ fun Screen1(modifier: Modifier,model: AppModel){
             rightIcon = painterResource(R.drawable.round_history_24),
             headerText = "Sci-Calc",model)
         Column(modifier = Modifier.weight(1f,fill = true)) {
-            CustomCalcText(Modifier.weight(1f, fill = true).background(color = Color.White).fillMaxWidth(),model.displayExp)
+            CustomCalcText(Modifier.weight(1f, fill = true).background(color = Color.White).fillMaxWidth(),model.displayExp, position = model.screenCalcCursorPosition)
             LazyRow(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically ,horizontalArrangement = Arrangement.spacedBy(16.dp),contentPadding = PaddingValues(16.dp)) {
                 item {
-                    IconButton(onClick = {model.displayExp.value="";model.exp.value=""}) {
+                    IconButton(onClick = {model.clearScreen()}) {
                         Icon(painter = painterResource(R.drawable.c),contentDescription = "",
                             tint = Color.Red)
                     }
@@ -128,6 +128,8 @@ fun HistoryCompose(date: String,label: String,result: String){
 }
 
 val specialFunc = listOf(
+    "²",
+    "^",
     "√",
     "e",
     "π",

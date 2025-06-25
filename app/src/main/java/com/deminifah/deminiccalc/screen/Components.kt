@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +30,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +45,10 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.InterceptPlatformTextInput
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -89,56 +96,57 @@ fun ToolBars(leftIcon:Painter, rightIcon:Painter, headerText:String,model: AppMo
 }
 @Composable
 fun CalcBtn(type:CalcbtnType,model:AppModel,index:Int, num:String = "1", funcSymbol: FuncSymbol = FuncSymbol.Clear){
-
-    Surface(shape = MaterialTheme.shapes.medium,
+    Button(shape = MaterialTheme.shapes.medium,
         onClick = {model.handleCLick(index)},
-        modifier = Modifier.padding(8.dp), color = when(type){
+        modifier = Modifier.padding(8.dp).onPreviewKeyEvent{event -> false}.onKeyEvent{event->if(event.nativeKeyEvent.isLongPress)model.clearScreen() ;false}  , colors = when(type){
         CalcbtnType.Number -> {
-            Color.White
+            ButtonColors(containerColor = Color.White, contentColor = Color.Black, disabledContentColor = Color.White, disabledContainerColor = Color.Black)
         }
         CalcbtnType.Function -> {
             if (funcSymbol == FuncSymbol.Del){
-                Color.White
+                ButtonColors(containerColor = Color.White, contentColor = Color.Black, disabledContentColor = Color.White, disabledContainerColor = Color.Black)
             }else if (funcSymbol == FuncSymbol.Equal){
-                colorResource(R.color.equal)
+                var c =colorResource(R.color.equal)
+                ButtonColors(containerColor = c, contentColor = Color.Black, disabledContentColor = Color.White, disabledContainerColor = Color.Black)
             }
             else{
-                colorResource(R.color.func_btn)
+                var c =colorResource(R.color.func_btn)
+                ButtonColors(containerColor = c, contentColor = Color.White, disabledContentColor = Color.White, disabledContainerColor = Color.Black)
             }
         }
     })
     {
-        Box(contentAlignment = Alignment.Center, modifier = Modifier
-            .padding(10.dp)
-            .requiredSize(32.dp)) {
-            when(type){
-                CalcbtnType.Number -> {Text(text = num, color = Color.Black, fontWeight = FontWeight.Bold)}
-                CalcbtnType.Function -> {
-                    if(index == 0){
-                        Text(text = "(", color = Color.White, fontWeight = FontWeight.ExtraBold)
+        when(type){
+            CalcbtnType.Number -> {Text(text = num, color = Color.Black, fontWeight = FontWeight.Bold)}
+            CalcbtnType.Function -> {
+                if(index == 0){
+                    Text(text = "(", color = Color.White, fontWeight = FontWeight.ExtraBold)
+                }
+                else if(index == 1){
+                    Text(text = ")", color = Color.White, fontWeight = FontWeight.ExtraBold)
+                }
+                else{
+                    val painter = when(funcSymbol){
+                        FuncSymbol.Clear -> {R.drawable.c}
+                        FuncSymbol.Equal -> {R.drawable.equals}
+                        FuncSymbol.Multiply -> {R.drawable.multiplys}
+                        FuncSymbol.Minus ->{R.drawable.ic_baseline_minus}
+                        FuncSymbol.Plus -> {R.drawable.ic_baseline_plus}
+                        FuncSymbol.Divide -> {R.drawable.ic_baseline_divide}
+                        FuncSymbol.Mod -> R.drawable.iconoir_percentage
+                        FuncSymbol.Bracket -> R.drawable.brack
+                        FuncSymbol.Del -> {R.drawable.mynaui_delete_solid}
+                        FuncSymbol.ArrowUp -> {R.drawable.down}
+                        FuncSymbol.ArrowDown -> R.drawable.up
                     }
-                    else if(index == 1){
-                        Text(text = ")", color = Color.White, fontWeight = FontWeight.ExtraBold)
-                    }
-                    else{
-                        val painter = when(funcSymbol){
-                            FuncSymbol.Clear -> {R.drawable.c}
-                            FuncSymbol.Equal -> {R.drawable.equals}
-                            FuncSymbol.Multiply -> {R.drawable.multiplys}
-                            FuncSymbol.Minus ->{R.drawable.ic_baseline_minus}
-                            FuncSymbol.Plus -> {R.drawable.ic_baseline_plus}
-                            FuncSymbol.Divide -> {R.drawable.ic_baseline_divide}
-                            FuncSymbol.Mod -> R.drawable.iconoir_percentage
-                            FuncSymbol.Bracket -> R.drawable.brack
-                            FuncSymbol.Del -> {R.drawable.mynaui_delete_solid}
-                            FuncSymbol.ArrowUp -> {R.drawable.down}
-                            FuncSymbol.ArrowDown -> R.drawable.up
-                        }
-                        AsyncImage(ImageRequest.Builder(LocalContext.current).data(painter).placeholder(painter) .build(), contentDescription = "")
-                    }
-                   }
+                    AsyncImage(ImageRequest.Builder(LocalContext.current).data(painter).placeholder(painter) .build(), contentDescription = "")
+                }
             }
         }
+//        Box(contentAlignment = Alignment.Center, modifier = Modifier
+//            .padding(10.dp)
+//            .requiredSize(32.dp)) {
+//        }
     }
 }
 
@@ -165,36 +173,23 @@ enum class FuncSymbol{
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CustomCalcText(modifier: Modifier, state:MutableState<String>,pad:Int=0){
-    val textvalue = TextFieldValue(text = state.value, TextRange(state.value.length, state.value.length))
-    val clipboard = LocalClipboardManager.current
-    val toast = Toast.makeText(LocalContext.current,"Copied to Clip Tray",Toast.LENGTH_SHORT)
+fun CustomCalcText(modifier: Modifier, state:MutableState<String>,pad:Int=0,position: MutableIntState){
+    //val textvalue = TextFieldValue(text = state.value, TextRange(state.value.length, state.value.length))
+    //val clipboard = LocalClipboardManager.current
+    //val toast = Toast.makeText(LocalContext.current,"Copied to Clip Tray",Toast.LENGTH_SHORT)
 
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(true) {
         focusRequester.requestFocus()
     }
-    InterceptPlatformTextInput(interceptor = { _, _ -> awaitCancellation() })
-    {
-        Row(modifier = modifier,horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
-            BasicTextField(value = textvalue,
-                textStyle = TextStyle(
-                    color = Color.DarkGray,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                ),
-                cursorBrush = SolidColor(Color.DarkGray),
-                modifier = Modifier.weight(1f).fillMaxHeight().focusRequester(focusRequester).padding(pad.dp),
-                onValueChange = {})
-            IconButton(onClick = {clipboard.setText(AnnotatedString(state.value));toast.show()}) {
-                Icon(painterResource(R.drawable.baseline_content_copy_24),"", tint = Color.DarkGray)
-            }
-        }
+    Row(modifier = modifier,horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
+        CustomTv( Modifier.weight(1f).fillMaxHeight().padding(pad.dp).focusRequester(focusRequester),state,position )
+    }
 //        TextField(value = textvalue,
 //            colors = TextFieldDefaults.colors(cursorColor = Color.DarkGray, focusedContainerColor = Color.White, unfocusedContainerColor = Color.White),
 //            modifier = modifier.focusRequester(focusRequester),
 //            onValueChange = {})
-    }
+
 
 //    BasicTextField(
 //        value = state.value,
@@ -243,6 +238,9 @@ val CalcBtnData = listOf(BtnData(type = CalcbtnType.Function, funcSymbol = FuncS
 
 @Composable
 fun HealthInfoCard(modifier:Modifier = Modifier,title:String = "Age", value:String = "43",onClick:()->Unit){
+    LaunchedEffect(true) {
+        print("Hello")
+    }
     Surface(onClick = onClick, color = Color.White, shape = MaterialTheme.shapes.medium, tonalElevation = 32.dp, modifier = modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.padding(14.dp)) {
             Text(text = title, fontWeight = FontWeight.ExtraBold,
