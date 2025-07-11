@@ -32,3 +32,5 @@ fun stringFormat(value: String): String{
     return String.format(Locale.ENGLISH,"%,.2f",value.toDouble())
 }
 
+
+

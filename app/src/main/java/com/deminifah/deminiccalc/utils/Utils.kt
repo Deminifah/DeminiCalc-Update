@@ -1,4 +1,4 @@
-package com.deminifah.deminiccalc.utils
+ package com.deminifah.deminiccalc.utils
 
 import com.deminifah.deminiccalc.obj.CurrencyPrice
 
